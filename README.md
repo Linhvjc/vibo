@@ -156,7 +156,7 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 > **Chuyển từ ngữ sang vector**
 > - Để máy tính hiểu được, chúng ta cần chuyển từ thành vectơ. Khía cạnh quan trọng của mô hình này nằm ở bước này, vì vậy chúng tôi bắt buộc phải trình bày rõ ràng và hiệu quả.
 > - Trước tiên, chúng tôi sẽ duyệt qua tất cả các phần tử trong documents.
-> - Tiếp theo chúng ta sẽ có một vectơ gồm 0 phần tử có độ dài bằng độ dài của biến words. Ở những vị trí mà biến từ trùng với các từ trong pattern thì nó sẽ được đổi thành 1. Để dễ hiểu chúng ta sẽ đến với ví dụ, chúng ta sẽ có các biến từ là ["hi", "morning", "there" ", "bye"] thì đầu tiên ta tạo vector [0,0,0,0], so sánh với pattern ["hi", "there"] thì tại vị trí số 0 và 2 trong words và pattern sẽ trùng nhau, ta sẽ có một vectơ mới là [1,0,1,0] (*)
+> - Tiếp theo chúng ta sẽ có một vectơ gồm 0 phần tử có độ dài bằng độ dài của biến words. Ở những vị trí mà biến words trùng với các từ trong pattern thì nó sẽ được đổi thành 1. Để dễ hiểu chúng ta sẽ đến với ví dụ, chúng ta sẽ có các biến words là ["hi", "morning", "there" ", "bye"] thì đầu tiên ta tạo vector [0,0,0,0], so sánh với pattern ["hi", "there"] thì tại vị trí số 0 và 2 trong words và pattern sẽ trùng nhau, ta sẽ có một vectơ mới là [1,0,1,0] (*)
 > - Đối với tag cũng vậy, tag là nhãn gắn cho từng pattern mà chúng tôi cung cấp cho máy để xác định. Tương tự như bước trước, vị trí mà tag khớp trong classes sẽ có giá trị 1. Ví dụ: chúng ta có classes là ["greeting", "occupation", "age", "name"], vì vậy tag "age" sẽ là vectơ [0,0,1,0] (**)
 > - Như vậy ta có dữ liệu huấn luyện là các vectơ, nó có cấu trúc là mảng hai chiều [[vector_pattern, vector_tag],...]. Trong đó vector_pattern là vector được tạo tại (*) và vector_tag được tạo tại (**)
 
