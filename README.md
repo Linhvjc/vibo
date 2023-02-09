@@ -156,7 +156,7 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 
 
 ##### Tất cả các bước
-> ** Dọn dẹp câu **
+> **Dọn dẹp câu**
 > - Loại bỏ các ký tự đặc biệt (., !, @, #, ?, ...). Ví dụ: "how old are you?" => "how old are you"
 > - Loại bỏ các từ lặp đi lặp lại. Ví dụ: "he is not a doctor, is he" => "he is not a doctor, is"
 > - Chia câu thành mảng từ. Ví dụ: "what's your name?" => ["what", "is", "yours", "name"]
