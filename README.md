@@ -85,6 +85,11 @@ Our focus here is not to delve deep into this model as it is straightforward. Th
 > **Get highest rate**
 > - We will find a way to get the maximum value in that array, and its index
 > - Its index position is also the predicted tag position in the array containing all the tags, we will get the correct tag.
+
+
+> **Random response in the tag**
+> - With the tag found, we will find the appropriate responses in the data
+> - Randomly select an answer from the responses array
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -142,3 +147,36 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 <div align="center">
 <img src="https://user-images.githubusercontent.com/93339285/217414212-d0b9c233-c1d8-4647-8894-9866006086be.png" alt="">
 </div>
+
+####C1. Mô hình dự đoán
+<div align="center">
+<img src="https://user-images.githubusercontent.com/93339285/217711728-3accdcb5-db1a-40ca-9f58-2a01d9cb762a.png" alt="">
+</div>
+
+
+
+##### Tất cả các bước
+> ** Dọn dẹp câu **
+> - Loại bỏ các ký tự đặc biệt (., !, @, #, ?, ...). Ví dụ: "how old are you?" => "how old are you"
+> - Loại bỏ các từ lặp đi lặp lại. Ví dụ: "he is not a doctor, is he" => "he is not a doctor, is"
+> - Chia câu thành mảng từ. Ví dụ: "what's your name?" => ["what", "is", "yours", "name"]
+
+
+> **Chuyển văn bản thành vectơ**
+> - Tạo mảng có n phần tử 0, trong đó n là độ dài của mảng chứa tất cả các từ được huấn luyện. Ví dụ ta có danh sách các các từ đã huấn luyện là 6 từ thì sẽ có mảng là [0,0,0,0,0,0]
+> - Tại các vị trí mà các từ trong câu đó khớp với nhau trong mảng tất cả các từ thì giá trị sẽ được cập nhật thành 1. Ví dụ mảng sẽ là [0,1,0,0,1,0]
+
+
+> **Dự đoán**
+> - Trong phần trước chúng ta đã huấn luyện mô hình. Bây giờ chúng ta chỉ cần lấy mô hình đó ra để sử dụng
+> - Ta sẽ có một mảng giá trị như hình trên, chính là tỉ lệ của câu trong từng tag
+
+
+> **Lấy ra tỷ lệ cao nhất**
+> - Ta sẽ tìm cách lấy giá trị lớn nhất trong mảng đó, và index của nó
+> - Vị trí chỉ mục của nó cũng chính là vị trí tag dự đoán trong mảng chứa tất cả các thẻ, ta sẽ được tag chính xác nhất.
+
+
+> **Chọn phản hồi ngẫu nhiên**
+> - Với tag tìm được, chúng ta sẽ tìm các phản hồi phù hợp trong dữ liệu
+> - Chọn ngẫu nhiên một câu trả lời từ mảng câu trả lời
