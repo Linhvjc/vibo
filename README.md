@@ -148,7 +148,7 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 <img src="https://user-images.githubusercontent.com/93339285/217414212-d0b9c233-c1d8-4647-8894-9866006086be.png" alt="">
 </div>
 
-####C1. Mô hình dự đoán
+#### C1. Mô hình dự đoán
 <div align="center">
 <img src="https://user-images.githubusercontent.com/93339285/217711728-3accdcb5-db1a-40ca-9f58-2a01d9cb762a.png" alt="">
 </div>
