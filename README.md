@@ -27,14 +27,14 @@ Our focus here is not to delve deep into this model as it is straightforward. Th
 </div>
 
 ##### All steps
-> Prepare data for word-to-vector conversion
+> **Prepare data for word-to-vector conversion**
 > - Before we proceed, let's analyze the data. The data consists of an array of information written in JSON format with the structure "Name": "Value". There are three components to consider: "tag" - this represents the subject of each object, such as greeting, occupation, or age; "patterns" - this is where the questions or statements for the chatbot to recognize are stored; "responses" - this is where all the answers are stored.
 > - Next we will have a variable named documents. It will have data as an array of tuples, in the tuples will include all the patterns we have and its tags. Patterns will be split literal into array and remove special symbols then lowercase. For example we will have an element like (["hi", "there"], "greeting") or (["morning"], "greeting")
 > - Through the data that we have, we will separate all the patterns we have and put in the words variable. Of course it must be stripped of the previous special character and lowercase.
 > - Finally, all tags will also be saved into a variable called classes, after being cleaned
 
 
-> Convert word to vector
+> **Convert word to vector**
 > - For computers to understand, we need to convert words into vectors. The crucial aspect of this model lies in this step, so it is imperative that we present it clearly and effectively.
 > - First we will iterate through all the elements in the documents.
 > - Next we will have a vector of 0 elements whose length is equal to the length of the words variable. In places where the words variable matches the words in the pattern, it will be changed to 1. For ease of understanding we will come to the example, we will have the words variable as ["hi", "morning", "there" ", "bye"] then we will first create a vector of [0,0,0,0], compare with pattern ["hi", "there"] then at index position 0 and 2 in words will coincide together, we will have a new vector is [1,0,1,0] (*)
@@ -42,7 +42,7 @@ Our focus here is not to delve deep into this model as it is straightforward. Th
 > - So we have training data as vectors, it has a structure of two-dimensional array [[vector_pattern, vector_tag],...]. Where vector_pattern is the vector created at (*) and vector_tag is created at (**)
 
 
-> Training
+> **Training**
 > - After we have finished preparing the data and turning it into vectors, we will train the model. The type of training will depend on each model and individual requirements. For Corgiman, I use a Sequential model which consists of 4 layers, the first layer has 256 neurons, the next layer has 128 neurons, the third layer has 64 neurons and the last layer has the number of neurons equal to the length of the output.
 
 
@@ -58,6 +58,34 @@ Our focus here is not to delve deep into this model as it is straightforward. Th
 <div align="center">
 <img src="https://user-images.githubusercontent.com/93339285/217414212-d0b9c233-c1d8-4647-8894-9866006086be.png" alt="">
 </div>
+
+
+#### C1. Prediction model
+<div align="center">
+<img src="https://user-images.githubusercontent.com/93339285/217691112-db393223-964f-47cb-bbef-617a36b1bbb8.png" alt="">
+</div>
+
+##### All steps
+> **Clean up sentence**
+> - Remove special characters (., !, @, #, ?, ...). For example, "how old are you ?" => "how old are you"
+> - Eliminate repeated words. For example, "he isn't a doctor, is he" => "he isn't a doctor, is"
+> - Split sentences into arrays of words. For example, "what is your name ?" => ["what", "is", "your", "name"]
+
+
+> **Text to vector**
+> - Create an array with n elements 0, where n is the length of the array containing all the trained words. For example, we have to 6 words trained, we will have an array like [0,0,0,0,0,0]
+> - At positions where the words in that sentence match in the array of all words, the value will be updated to 1. For example, the array will be [0,1,0,0,1,0]
+
+
+> **Predict**
+> - In the previous section we did the model training. Now we just need to take that model out to use
+> - We will have an array of values like the figure above, which is the exact proportion of the sentence in which tag
+
+
+> **Get highest rate**
+> - We will find a way to get the maximum value in that array, and its index
+> - Its index position is also the predicted tag position in the array containing all the tags, we will get the correct tag.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 ## 2. Vietnamese (Tiếng Việt) <a name="vietnam"></a>
@@ -84,14 +112,14 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 </div>
 
 ##### Tất cả các bước
-> Chuẩn bị dữ liệu để chuyển đổi từ sang vector
+> **Chuẩn bị dữ liệu để chuyển đổi từ sang vector**
 > - Trước khi tiến hành, hãy phân tích dữ liệu. Dữ liệu bao gồm một mảng thông tin được viết dưới dạng JSON với cấu trúc "Tên": "Giá trị". Có ba thành phần cần xem xét: "tag" - phần này thể hiện chủ đề của từng đối tượng, chẳng hạn như greeting, occupation hoặc age; "patterns" - đây là nơi lưu trữ các câu hỏi hoặc câu lệnh để chatbot nhận dạng; "responses" - đây là nơi lưu trữ tất cả các câu trả lời dành cho chatbot.
 > - Tiếp theo chúng ta sẽ có một biến có tên là documents. Nó sẽ có dữ liệu là một mảng các tuple, trong các tuple sẽ bao gồm tất cả các pattern mà chúng ta có và các thẻ của nó. Các pattern sẽ được tách thành mảng và loại bỏ các ký hiệu đặc biệt sau đó là chữ thường. Ví dụ: chúng ta sẽ có một phần tử như (["hi", "there"], "greeting") hoặc (["morning"], "greeting")
 > - Thông qua dữ liệu mà chúng ta có, chúng tôi sẽ tách tất cả các pattern và đưa vào biến words. Tất nhiên là phải lược bỏ ký tự đặc biệt và biến thành chữ thường trước đó.
 > - Cuối cùng, tất cả các tag cũng sẽ được lưu vào một biến có tên là các classes, sau khi được làm sạch ( loại bỏ ký tự đặc biệt và biến thành chữ thường )
 
 
-> Chuyển từ ngữ sang vector
+> **Chuyển từ ngữ sang vector**
 > - Để máy tính hiểu được, chúng ta cần chuyển từ thành vectơ. Khía cạnh quan trọng của mô hình này nằm ở bước này, vì vậy chúng tôi bắt buộc phải trình bày rõ ràng và hiệu quả.
 > - Trước tiên, chúng tôi sẽ duyệt qua tất cả các phần tử trong documents.
 > - Tiếp theo chúng ta sẽ có một vectơ gồm 0 phần tử có độ dài bằng độ dài của biến words. Ở những vị trí mà biến từ trùng với các từ trong pattern thì nó sẽ được đổi thành 1. Để dễ hiểu chúng ta sẽ đến với ví dụ, chúng ta sẽ có các biến từ là ["hi", "morning", "there" ", "bye"] thì đầu tiên ta tạo vector [0,0,0,0], so sánh với pattern ["hi", "there"] thì tại vị trí số 0 và 2 trong words và pattern sẽ trùng nhau, ta sẽ có một vectơ mới là [1,0,1,0] (*)
@@ -99,7 +127,7 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 > - Như vậy ta có dữ liệu huấn luyện là các vectơ, nó có cấu trúc là mảng hai chiều [[vector_pattern, vector_tag],...]. Trong đó vector_pattern là vector được tạo tại (*) và vector_tag được tạo tại (**)
 
 
-> Huấn luyện
+> **Huấn luyện**
 > - Sau khi chuẩn bị xong dữ liệu và biến nó thành vector, chúng ta sẽ huấn luyện mô hình. Loại hình đào tạo sẽ phụ thuộc vào từng mô hình và yêu cầu của chugs. Đối với Corgiman, tôi sử dụng mô hình Sequential bao gồm 4 lớp, lớp đầu tiên có 256 nơ ron, lớp tiếp theo có 128 nơ ron, lớp thứ 3 có 64 nơ ron và lớp cuối cùng có số nơ ron bằng chiều dài của đầu ra. 
 
 ##### Đánh giá
