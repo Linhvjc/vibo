@@ -90,6 +90,35 @@ Our focus here is not to delve deep into this model as it is straightforward. Th
 > **Random response in the tag**
 > - With the tag found, we will find the appropriate responses in the data
 > - Randomly select an answer from the responses array
+
+
+### D. Advantages and Disadvantages
+#### Advantages
+> - Flask provides a simple and clear model for building chatbots, making it easy for developers to understand and implement.
+> - The chatbot runs stably on i5 chip configuration or higher, ensuring good performance for your users.
+> - The training data is stored in JSON format, which is a plain text format that is easy to use and send to any server. JSON is also commonly used to exchange text data between the browser and the computer.
+> - The chatbot training process is efficient and doesn't take much time, allowing you to get your chatbot up and running quickly.
+> - As the chatbot is deployed on Flask, it's easy to extend and add new features or customizations.
+> - MongoDB, a NoSQL database, provides the flexibility and ease of storing data, allowing you to manage and organize your data in a way that meets your needs.
+> - MongoDB also offers robust security features to protect your data, ensuring that your chatbot and its data are safe and secure.
+
+#### Disadvantages
+> - Lack of diverse and comprehensive training data
+> - Overloading the model with too much training data can decrease its accuracy
+> - Longer sentences for the chatbot to analyze and predict will negatively impact its response accuracy
+> - Chatbots built on Flask may require more resources and potentially impact system performance
+> - MongoDB, being a NoSQL database, offers flexible data storage but also requires careful data management and security measures
+> - As Flask is an open-source platform, there may be security vulnerabilities or missing features, requiring extra caution when implementing.
+
+
+### Conclusion
+In this post, I hope to introduce you to a useful tool, a chatbot. I have built the chatbot in the simplest way possible to help you understand better. However, to achieve higher accuracy, each step needs to be optimized further.
+This is my first article and there may be mistakes or misunderstandings, I welcome feedback and corrections from all of you. Thank you very much for reading and providing feedback.
+
+Corgiman is the project where I applied this model, You can find it [here](https://github.com/Linhvjc/Corgiman.git)
+
+If you are interested or have any questions about the article, please leave your comments below the comment section ^^. Thank you very much for your follow up.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -180,3 +209,32 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 > **Chọn phản hồi ngẫu nhiên**
 > - Với tag tìm được, chúng ta sẽ tìm các phản hồi phù hợp trong dữ liệu
 > - Chọn ngẫu nhiên một câu trả lời từ mảng câu trả lời
+
+
+### D. Ưu điểm và nhược điểm
+#### Ưu điểm
+> - Flask cung cấp một mô hình đơn giản và rõ ràng cho việc xây dựng chatbot, giúp cho nhà phát triển dễ dàng hiểu và thực hiện.
+> - Chatbot hoạt động ổn định trên cấu hình chip i5 hoặc cao hơn, đảm bảo hiệu suất tốt cho người dùng của bạn.
+> - Dữ liệu huấn luyện được lưu trữ trong định dạng JSON, đây là một định dạng văn bản đơn giản dễ dùng và gửi đến bất kỳ máy chủ nào. JSON cũng thường được sử dụng để trao đổi dữ liệu văn bản giữa trình duyệt và máy tính.
+> - Quá trình huấn luyện chatbot hiệu quả và không mất nhiều thời gian, cho phép bạn triển khai chatbot của mình nhanh chóng.
+> - Vì chatbot được triển khai trên Flask, nó dễ dàng mở rộng và thêm các tính năng hoặc tùy chỉnh mới.
+> - MongoDB, là một cơ sở dữ liệu NoSQL, cung cấp sự linh hoạt và dễ dàng lưu trữ dữ liệu, cho phép bạn quản lý và tổ chức dữ liệu theo cách phù hợp với nhu cầu của người dùng
+> - MongoDB cũng cung cấp các tính năng bảo mật mạnh mẽ để bảo vệ dữ liệu của bạn, đảm bảo rằng chatbot của bạn và dữ liệu của nó được an toàn và bảo mật.
+
+
+#### Nhược điểm
+> - Thiếu dữ liệu huấn luyện đa dạng và đầy đủ
+> - Quá tải dữ liệu huấn luyện có thể giảm độ chính xác của mô hình
+> - Các câu dài hơn cho chatbot phân tích và dự đoán sẽ làm giảm độ chính xác của câu trả lời của chatbot
+> - Chatbot xây dựng trên Flask có thể yêu cầu nhiều tài nguyên hơn và có thể làm giảm hiệu năng hệ thống
+> - MongoDB, là một cơ sở dữ liệu NoSQL, cung cấp tính linh hoạt và dễ dàng trong việc lưu trữ dữ liệu, nhưng cũng yêu cầu kỹ thuật để quản lý và bảo mật dữ liệu hiệu quả.
+> - Vì Flask là một nền tảng mã nguồn mở, có thể có lỗ hổng bảo mật hoặc tính năng không được hỗ trợ, điều này yêu cầu sự chú ý khi thực hiện.
+
+
+### E. Kết Luận
+Trong bài viết này, mình mong muốn giới thiệu cho các bạn một công cụ hữu ích là chatbot. Mình đã xây dựng chatbot theo cách đơn giản nhất có thể để giúp các bạn hiểu rõ hơn. Tuy nhiên, để có độ chính xác cao hơn, từng bước cần được tối ưu hơn.
+Đây là bài viết đầu tiên của mình và có thể có sai sót hoặc nhầm tưởng, mình rất mong nhận được góp ý chỉnh sửa từ các bạn. Mình cảm ơn mọi người đã đọc và góp ý.
+
+Corgiman là dự án mà tôi đã áp dụng model này, bạn có thể truy cập [tại đây](https://github.com/Linhvjc/Corgiman.git)
+
+Các bạn quan tâm hay có thắc mắc gì về bài viết, hãy để lại ý kiến của mình dưới phần comment nhé ^^. Mình rất cảm ơn sự theo dõi của các bạn.
