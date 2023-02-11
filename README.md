@@ -422,6 +422,6 @@ def get_response(intents_list, intents_json):
 Trong bài viết này, mình mong muốn giới thiệu cho các bạn một công cụ hữu ích là chatbot. Mình đã xây dựng chatbot theo cách đơn giản nhất có thể để giúp các bạn hiểu rõ hơn. Tuy nhiên, để có độ chính xác cao hơn, từng bước cần được tối ưu hơn.
 Đây là bài viết đầu tiên của mình và có thể có sai sót hoặc nhầm tưởng, mình rất mong nhận được góp ý chỉnh sửa từ các bạn. Mình cảm ơn mọi người đã đọc và góp ý.
 
-Corgiman là dự án mà tôi đã áp dụng model này, bạn có thể tham khảo [tại đây](https://github.com/Linhvjc/Corgiman.git)
+Corgiman là dự án mà mình đã áp dụng model này, bạn có thể tham khảo [tại đây](https://github.com/Linhvjc/Corgiman.git)
 
 Các bạn quan tâm hay có thắc mắc gì về bài viết, hãy để lại ý kiến của mình dưới phần comment nhé ^^. Mình rất cảm ơn sự theo dõi của các bạn.
