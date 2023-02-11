@@ -219,7 +219,7 @@ If you are interested or have any questions about the article, please leave your
 ### A. Giới thiệu
 "Là một sinh viên học kiến thức về trí tuệ nhân tạo, tôi rất hứng thú với ChatGPT của OpenAI, được coi là chatbot tiên tiến nhất trên thế giới. Sử dụng thuật toán Transformer giúp ChatGPT xử lý dữ liệu liên tục một cách dễ dàng, giúp quá trình huấn luyện và sử dụng được đẩy nhanh.
 Trong dự án cá nhân của tôi, tên là Corgiman, tôi đã tạo ra một mô hình chatbot đơn giản sử dụng mô hình phân loại làm chủ yếu. Khác với ChatGPT, mô hình chatbot này sử dụng một cách tiếp cận khác với trí tuệ nhân tạo.
-Cần lưu ý rằng máy tính không có khả năng hiểu ngôn ngữ tự nhiên như con người. Thay vào đó, họ hiểu các chuỗi số và từ. Do đó, phải tạo ra một chuỗi số duy nhất cho mỗi từ trong bất kỳ ngôn ngữ nào để hỗ trợ trao đổi. Quá trình chuyển đổi từ thành vector được gọi là word-to-vec.
+Cần lưu ý rằng máy tính không có khả năng hiểu ngôn ngữ tự nhiên như con người. Thay vào đó, chúng sẽ hiểu các chuỗi số. Quá trình chuyển đổi từ thành vector được gọi là word-to-vec.
 Trong bài viết này, tôi muốn chia sẻ với bạn kinh nghiệm của mình trong việc tạo ra một mô hình chatbot đơn giản sử dụng ngôn ngữ Python sau đó áp dụng vào dự án của tôi là Corgiman. Tôi tin rằng điều này sẽ cung cấp thông tin hữu ích về quá trình tạo ra một chatbot và những thách thức mà điều đó mang lại. 
 
 ### B. Tổng quát mô hình với Flask và MongoDB
@@ -236,6 +236,9 @@ Dữ liệu huấn luyện sẽ có cấu trúc như sau:
 <div align="center">
 <img src="https://user-images.githubusercontent.com/93339285/218239787-da0fa879-4639-4984-8e22-b818b732446d.png" alt="">
 </div>
+
+
+
 #### C1. Mô hình huấn luyện
 <div align="center">
 <img src="https://user-images.githubusercontent.com/93339285/217394343-e6842a8b-b7ae-4761-abac-7b7df410b4c9.png" alt="">
