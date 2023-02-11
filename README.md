@@ -232,6 +232,10 @@ Hãy đến với ví dụ thực tế là dự án Corgiman, chúng ta sử d�
 Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hình này vì nó khá đơn giản. Mục đích của bài đăng này chỉ đơn giản là giới thiệu về mô hình chatbot, vì vậy chúng ta hãy chuyển sang phần tiếp theo.
 
 ### C. Mô hình Chatbot
+Dữ liệu huấn luyện sẽ có cấu trúc như sau:
+<div align="center">
+<img src="https://user-images.githubusercontent.com/93339285/218239787-da0fa879-4639-4984-8e22-b818b732446d.png" alt="">
+</div>
 #### C1. Mô hình huấn luyện
 <div align="center">
 <img src="https://user-images.githubusercontent.com/93339285/217394343-e6842a8b-b7ae-4761-abac-7b7df410b4c9.png" alt="">
