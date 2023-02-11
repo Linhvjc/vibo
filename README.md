@@ -5,7 +5,7 @@
 ## 1. English (Tiếng Anh) <a name="english"></a>
 
 ### A. Introduction
-As a student of artificial intelligence who has only been studying the field for 6 months, I am fascinated by OpenAI's ChatGPT, which is known as the world's most advanced chatbot. The use of the Transformer algorithm in ChatGPT makes it possible to process continuous data structures with ease, leading to easier training and usage.
+As a student of artificial intelligence who has only been studying the field for 3 months, I am fascinated by OpenAI's ChatGPT, which is known as the world's most advanced chatbot. The use of the Transformer algorithm in ChatGPT makes it possible to process continuous data structures with ease, leading to easier training and usage.
 In my own personal project, called Corgiman, I have created a simple chatbot model that utilizes a classification model as its primary function. Unlike ChatGPT, this chatbot model uses a different approach to AI
 It is important to note that computers do not have the ability to understand natural language like humans do. Instead, they understand sequences of numbers and words. Therefore, a unique sequence of numbers must be created for every word in any language in order to facilitate communication. This process of converting words into vectors is called word-to-vec.
 In this post, I would like to share with you my experience in creating a simple chatbot model using Python and apply it in my project, Corgiman. I believe that this will provide valuable insight into the process of creating a chatbot and the challenges that come with it.
@@ -21,6 +21,11 @@ We will come to the actual example of this model. For the Corgiman project, we u
 Our focus here is not to delve deep into this model as it is straightforward. The purpose of this post is simply to provide an introduction to the chatbot model, so let's move on to the next section.
 
 ### C. Chatbot model
+The training data will have the following structure:
+<div align="center">
+<img src="https://user-images.githubusercontent.com/93339285/218239787-da0fa879-4639-4984-8e22-b818b732446d.png" alt="">
+</div>
+
 #### C1. Training model
 <div align="center">
 <img src="https://user-images.githubusercontent.com/93339285/217392155-3ea153f7-1590-472c-934a-f0f379e9d436.png" alt="">
@@ -34,6 +39,17 @@ Our focus here is not to delve deep into this model as it is straightforward. Th
 > - Finally, all tags will also be saved into a variable called classes, after being cleaned
 
 
+```python:
+for intent in intents["intents"]:
+    for pattern in intent['patterns']:
+      word_list = nltk.word_tokenize(pattern)
+      words.extend(word_list)
+      documents.append((word_list, intent['tag']))
+      if intent['tag'] not in classes:
+          classes.append(intent['tag']) 
+```
+
+
 > **Convert word to vector**
 > - For computers to understand, we need to convert words into vectors. The crucial aspect of this model lies in this step, so it is imperative that we present it clearly and effectively.
 > - First we will iterate through all the elements in the documents.
@@ -42,8 +58,37 @@ Our focus here is not to delve deep into this model as it is straightforward. Th
 > - So we have training data as vectors, it has a structure of two-dimensional array [[vector_pattern, vector_tag],...]. Where vector_pattern is the vector created at (*) and vector_tag is created at (**)
 
 
+```python:
+for document in documents:
+  bag = []
+  word_patterns = document[0]
+  word_patterns = [lemmatizer.lemmatize(word.lower()) for word in word_patterns]
+  for word in words:
+      bag.append(1) if word in word_patterns else bag.append(0)
+
+  output_row = list(output_empty)
+  output_row[classes.index(document[1])] = 1
+  training.append([bag, output_row])
+```
+
+
 > **Training**
 > - After we have finished preparing the data and turning it into vectors, we will train the model. The type of training will depend on each model and individual requirements. For Corgiman, I use a Sequential model which consists of 4 layers, the first layer has 256 neurons, the next layer has 128 neurons, the third layer has 64 neurons and the last layer has the number of neurons equal to the length of the output.
+
+
+```python:
+model = Sequential()
+model.add(Dense(256, input_shape=(len(train_x[0]),), activation='relu'))
+model.add(Dropout(0.5))  
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))   
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.5))   
+model.add(Dense(len(train_y[0]), activation='softmax'))
+
+sgd = gradient_descent_v2.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+```
 
 
 ##### Evaluate
@@ -72,25 +117,72 @@ Our focus here is not to delve deep into this model as it is straightforward. Th
 > - Split sentences into arrays of words. For example, "what is your name ?" => ["what", "is", "your", "name"]
 
 
+```python:
+def clean_up_sentence(sentence):
+    sentence_words = nltk.word_tokenize(sentence)  
+    sentence_words = [lemmatizer.lemmatize(word) for word in sentence_words]   
+    return sentence_words  
+```
+
+
 > **Text to vector**
 > - Create an array with n elements 0, where n is the length of the array containing all the trained words. For example, we have to 6 words trained, we will have an array like [0,0,0,0,0,0]
 > - At positions where the words in that sentence match in the array of all words, the value will be updated to 1. For example, the array will be [0,1,0,0,1,0]
 
+
+```python:
+def bag_of_word(sentence):
+    sentence_words = clean_up_sentence(sentence)
+    bag = [0] * len(words)          
+    for w in sentence_words:
+        for i, word in enumerate(words):       
+            if word == w:
+                bag[i] = 1
+    return np.array(bag)
+```
 
 > **Predict**
 > - In the previous section we did the model training. Now we just need to take that model out to use
 > - We will have an array of values like the figure above, which is the exact proportion of the sentence in which tag
 
 
-> **Get highest rate**
+```python:
+def predict_class(sentence):
+    bow = bag_of_word(sentence)
+    res = model.predict(np.array([bow]))[0];
+    ERROR_THRESHOLD = 0.25
+    results = [[i, r] for i,r in enumerate(res) if r > ERROR_THRESHOLD] # => result = the value > 0.25
+    results.sort(key = lambda x: x[1], reverse=True) # get the highest value [[2, 0.9970567]]
+    return_list = []
+    # check meaningful sentences
+    if len(results) == 0:
+        return_list = [{'intent': 'no answer'}]
+    elif results[0][1] < 0.6:
+        return_list = [{'intent': 'no answer'}]
+    else:
+        for r in results:
+            return_list.append({'intent': classes[r[0]], 'probability': str(r[1])}) # r[0] is index, r[1] is value.
+            # example: [{'intent': 'greetings', 'probability': '0.9970567'}]
+    return return_list    
+```
+
+
+> **Get response**
 > - We will find a way to get the maximum value in that array, and its index
 > - Its index position is also the predicted tag position in the array containing all the tags, we will get the correct tag.
-
-
-> **Random response in the tag**
 > - With the tag found, we will find the appropriate responses in the data
 > - Randomly select an answer from the responses array
 
+
+```python:
+def get_response(intents_list, intents_json):
+    # get the first value ( the value has probability highest)
+    tag = intents_list[0]['intent']
+    for intent in intents_json:
+        if intent['tag'] == tag:
+            return random.choice(intent['responses'])
+    return "I can't get it"
+```
 
 ### D. Advantages and Disadvantages
 #### Advantages
@@ -153,6 +245,17 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 > - Cuối cùng, tất cả các tag cũng sẽ được lưu vào một biến có tên là các classes, sau khi được làm sạch ( loại bỏ ký tự đặc biệt và biến thành chữ thường )
 
 
+```python:
+for intent in intents["intents"]:
+    for pattern in intent['patterns']:
+      word_list = nltk.word_tokenize(pattern)
+      words.extend(word_list)
+      documents.append((word_list, intent['tag']))
+      if intent['tag'] not in classes:
+          classes.append(intent['tag']) 
+```
+
+
 > **Chuyển từ ngữ sang vector**
 > - Để máy tính hiểu được, chúng ta cần chuyển từ thành vectơ. Khía cạnh quan trọng của mô hình này nằm ở bước này, vì vậy chúng tôi bắt buộc phải trình bày rõ ràng và hiệu quả.
 > - Trước tiên, chúng tôi sẽ duyệt qua tất cả các phần tử trong documents.
@@ -161,8 +264,37 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 > - Như vậy ta có dữ liệu huấn luyện là các vectơ, nó có cấu trúc là mảng hai chiều [[vector_pattern, vector_tag],...]. Trong đó vector_pattern là vector được tạo tại (*) và vector_tag được tạo tại (**)
 
 
+```python:
+for document in documents:
+  bag = []
+  word_patterns = document[0]
+  word_patterns = [lemmatizer.lemmatize(word.lower()) for word in word_patterns]
+  for word in words:
+      bag.append(1) if word in word_patterns else bag.append(0)
+
+  output_row = list(output_empty)
+  output_row[classes.index(document[1])] = 1
+  training.append([bag, output_row])
+```
+
+
 > **Huấn luyện**
 > - Sau khi chuẩn bị xong dữ liệu và biến nó thành vector, chúng ta sẽ huấn luyện mô hình. Loại hình đào tạo sẽ phụ thuộc vào từng mô hình và yêu cầu của chugs. Đối với Corgiman, tôi sử dụng mô hình Sequential bao gồm 4 lớp, lớp đầu tiên có 256 nơ ron, lớp tiếp theo có 128 nơ ron, lớp thứ 3 có 64 nơ ron và lớp cuối cùng có số nơ ron bằng chiều dài của đầu ra. 
+
+
+```python:
+model = Sequential()
+model.add(Dense(256, input_shape=(len(train_x[0]),), activation='relu'))
+model.add(Dropout(0.5))  
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))   
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.5))   
+model.add(Dense(len(train_y[0]), activation='softmax'))
+
+sgd = gradient_descent_v2.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+```
 
 ##### Đánh giá
 > Kết quả
@@ -191,24 +323,72 @@ Trọng tâm của chúng tôi ở đây không phải là đi sâu vào mô hì
 > - Chia câu thành mảng từ. Ví dụ: "what's your name?" => ["what", "is", "yours", "name"]
 
 
+```python:
+def clean_up_sentence(sentence):
+    sentence_words = nltk.word_tokenize(sentence)   # split sentence to array
+    sentence_words = [lemmatizer.lemmatize(word) for word in sentence_words]    # check if same word
+    return sentence_words
+```
+
+
 > **Chuyển văn bản thành vectơ**
 > - Tạo mảng có n phần tử 0, trong đó n là độ dài của mảng chứa tất cả các từ được huấn luyện. Ví dụ ta có danh sách các các từ đã huấn luyện là 6 từ thì sẽ có mảng là [0,0,0,0,0,0]
 > - Tại các vị trí mà các từ trong câu đó khớp với nhau trong mảng tất cả các từ thì giá trị sẽ được cập nhật thành 1. Ví dụ mảng sẽ là [0,1,0,0,1,0]
 
+
+```python:
+def bag_of_word(sentence):
+    sentence_words = clean_up_sentence(sentence)
+    bag = [0] * len(words)          
+    for w in sentence_words:
+        for i, word in enumerate(words):        
+            if word == w:
+                bag[i] = 1
+    return np.array(bag)
+```
 
 > **Dự đoán**
 > - Trong phần trước chúng ta đã huấn luyện mô hình. Bây giờ chúng ta chỉ cần lấy mô hình đó ra để sử dụng
 > - Ta sẽ có một mảng giá trị như hình trên, chính là tỉ lệ của câu trong từng tag
 
 
-> **Lấy ra tỷ lệ cao nhất**
+```python:
+def predict_class(sentence):
+    bow = bag_of_word(sentence)
+    res = model.predict(np.array([bow]))[0];
+    ERROR_THRESHOLD = 0.25
+    results = [[i, r] for i,r in enumerate(res) if r > ERROR_THRESHOLD] # => result = the value > 0.25
+    results.sort(key = lambda x: x[1], reverse=True) # get the highest value [[2, 0.9970567]]
+    return_list = []
+    # check meaningful sentences
+    if len(results) == 0:
+        return_list = [{'intent': 'no answer'}]
+    elif results[0][1] < 0.6:
+        return_list = [{'intent': 'no answer'}]
+    else:
+        for r in results:
+            return_list.append({'intent': classes[r[0]], 'probability': str(r[1])}) # r[0] is index, r[1] is value.
+            # example: [{'intent': 'greetings', 'probability': '0.9970567'}]
+    return return_list      
+```
+
+
+> **Lấy ra phản hồi**
 > - Ta sẽ tìm cách lấy giá trị lớn nhất trong mảng đó, và index của nó
 > - Vị trí chỉ mục của nó cũng chính là vị trí tag dự đoán trong mảng chứa tất cả các thẻ, ta sẽ được tag chính xác nhất.
-
-
-> **Chọn phản hồi ngẫu nhiên**
 > - Với tag tìm được, chúng ta sẽ tìm các phản hồi phù hợp trong dữ liệu
 > - Chọn ngẫu nhiên một câu trả lời từ mảng câu trả lời
+
+
+```python:
+def get_response(intents_list, intents_json):
+    # get the first value ( the value has probability highest)
+    tag = intents_list[0]['intent']
+    for intent in intents_json:
+        if intent['tag'] == tag:
+            return random.choice(intent['responses'])
+    return "I can't get it"
+```
 
 
 ### D. Ưu điểm và nhược điểm
