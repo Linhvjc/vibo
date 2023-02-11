@@ -286,7 +286,7 @@ for document in documents:
 
 
 > **Huấn luyện**
-> - Sau khi chuẩn bị xong dữ liệu và biến nó thành vector, chúng ta sẽ huấn luyện mô hình. Loại hình đào tạo sẽ phụ thuộc vào từng mô hình và yêu cầu của chugs. Đối với Corgiman, tôi sử dụng mô hình Sequential bao gồm 4 lớp, lớp đầu tiên có 256 nơ ron, lớp tiếp theo có 128 nơ ron, lớp thứ 3 có 64 nơ ron và lớp cuối cùng có số nơ ron bằng chiều dài của đầu ra. 
+> - Sau khi chuẩn bị xong dữ liệu và biến nó thành vector, chúng ta sẽ huấn luyện mô hình. Loại hình đào tạo sẽ phụ thuộc vào từng mô hình và yêu cầu của chúng. Đối với Corgiman, tôi sử dụng mô hình Sequential bao gồm 4 lớp, lớp đầu tiên có 256 nơ ron, lớp tiếp theo có 128 nơ ron, lớp thứ 3 có 64 nơ ron và lớp cuối cùng có số nơ ron bằng chiều dài của đầu ra. 
 
 
 ```python:
